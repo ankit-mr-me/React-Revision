@@ -7,22 +7,29 @@ export const useLogin = () => {
     const { dispatch } = useAuthContext()
 
     const login = async (email, password) => {
-    setIsLoading(true)
-    setError(null)
+    try {
+        const response = await fetch("/api/user/login", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ email, password }),
+        });
 
-    const response = await fetch('/api/user/login', {
-        method: 'POST',
-        headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({ email, password })
-    })
-    const text = await response.text()
-    const json = JSON.parse(text);
+        // Check if response is not empty
+        const text = await response.text();
 
-    if (!response.ok) {
+        if (!text) {
+            throw new Error("Empty response from server");
+        }
+
+        const json = JSON.parse(text);
+
+        if (!response.ok) {
         setIsLoading(false)
         setError(json.error)
-    }
-    if (response.ok) {
+        }
+        if (response.ok) {
       // save the user to local storage
         localStorage.setItem('user', JSON.stringify(json))
 
@@ -32,7 +39,15 @@ export const useLogin = () => {
       // update loading state
         setIsLoading(false)
     }
+        
+
+        // return data;  // Make sure frontend uses the response properly
+    } catch (error) {
+        console.error("Login error:", error);
+        return null;
     }
+};
+
 
 
     return { login, isLoading, error }
