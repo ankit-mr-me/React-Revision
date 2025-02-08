@@ -8,7 +8,7 @@ export const useLogin = () => {
 
     const login = async (email, password) => {
     try {
-        const response = await fetch("/api/user/login", {
+        const response = await fetch("https://fitbuddy-890e.onrender.com/api/user/login", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -18,35 +18,22 @@ export const useLogin = () => {
 
         // Check if response is not empty
         const text = await response.text();
+        console.log("Raw response:", text);  // Debugging step
 
         if (!text) {
             throw new Error("Empty response from server");
         }
 
-        const json = JSON.parse(text);
+        const data = JSON.parse(text);
+        console.log("Parsed JSON:", data);
 
-        if (!response.ok) {
-        setIsLoading(false)
-        setError(json.error)
-        }
-        if (response.ok) {
-      // save the user to local storage
-        localStorage.setItem('user', JSON.stringify(json))
-
-      // update the auth context
-        dispatch({type: 'LOGIN', payload: json})
-
-      // update loading state
-        setIsLoading(false)
-    }
-        
-
-        // return data;  // Make sure frontend uses the response properly
+        return data;  // Make sure frontend uses the response properly
     } catch (error) {
         console.error("Login error:", error);
         return null;
     }
 };
+
 
 
 
