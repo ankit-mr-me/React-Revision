@@ -15,7 +15,8 @@ export const useLogin = () => {
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify({ email, password })
     })
-    const json = await response.text()
+    const text = await response.text()
+    const json = JSON.parse(text);
 
     if (!response.ok) {
         setIsLoading(false)
