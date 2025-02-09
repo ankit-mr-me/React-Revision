@@ -25,6 +25,24 @@ export const useLogin = () => {
         }
 
         const json = JSON.parse(text);
+
+        if (!response.ok) {
+            console.log("1")
+            setIsLoading(false)
+            setError(json.error)
+        }
+        
+        if (response.ok) {
+            console.log("2")
+            // save the user to local storage
+            localStorage.setItem('user', JSON.stringify(json))
+
+          // update the auth context
+            dispatch({type: 'LOGIN', payload: json})
+
+          // update loading state
+            setIsLoading(false)
+    }
         
 
         // return json;  // Make sure frontend uses the response properly
