@@ -27,7 +27,7 @@ export const useLogin = () => {
         const json = JSON.parse(text);
         
 
-        return json;  // Make sure frontend uses the response properly
+        // return json;  // Make sure frontend uses the response properly
     } catch (error) {
         console.error("Login error:", error);
         return null;
