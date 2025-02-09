@@ -13,9 +13,9 @@ const app = express();
 // app.use(cors());
 
 app.use(cors({
-    origin: "https://fitbuddy-frontend.onrender.com",  // Replace with your frontend's URL
-    methods: ['GET', 'POST', 'PUT', 'DELETE'],
-    credentials: true  // Allow cookies if needed
+    origin: "*",  // Replace with your frontend's URL
+    // methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    // credentials: true  // Allow cookies if needed
 }));
 
 // middleware
