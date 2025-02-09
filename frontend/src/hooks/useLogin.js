@@ -12,7 +12,7 @@ export const useLogin = () => {
 
     const response = await fetch('/api/user/login', {
         method: 'POST',
-        headers: {'Content-Type': 'application/json'},
+        headers: {'Content-Type': 'application/json; charset=utf-8'},
         body: JSON.stringify({ email, password })
     })
     const json = await response.json()
