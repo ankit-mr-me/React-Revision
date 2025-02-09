@@ -17,6 +17,7 @@ const Home = () =>{
         const fetchWorkouts = async () => {
             const response = await fetch('/api/workouts/' , {
                 headers:{
+                    'Content-Type': 'application/json',
                     'Authorization': `Bearer ${user.token}`
                 }
             })

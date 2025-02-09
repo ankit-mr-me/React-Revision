@@ -19,6 +19,7 @@ const WorkoutDetails = ({workout}) =>{
         const response = await fetch('/api/workouts/' + workout._id , {
             method: "DELETE",
             headers:{
+                'Content-Type': 'application/json',
                 'Authorization': `Bearer ${user.token}`
             }
         })
