@@ -31,14 +31,13 @@ app.use('/api/workouts' ,workoutRoutes)
 app.use('/api/user' , userRoutes)
 
 
-
-// connecting with mongo with mongoose
-mongoose.connect(process.env.MONG_URI)
-.then(() => {
-    app.listen(process.env.PORT, ()=>{
-        console.log('listening on port 4000');
-        
+app.listen(process.env.PORT, ()=>{
+    console.log(`listening on port ${process.env.PORT}`);
+    mongoose.connect(process.env.MONG_URI)
+    .then(() => {
+        console.log("Connected to DB");
     })
+    .catch(err => console.log(err.message))
 })
-.catch(err => console.log(err.message))
+// connecting with mongo with mongoose
 
