@@ -23,28 +23,72 @@ const handleSubmit = async (e) => {
 
     const workout = {title, load, reps}
     
-    const response = await fetch('/api/workouts', {
-        method: 'POST',
-        body: JSON.stringify(workout),
-        headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${user.token}`
-        }
-    })
-    const json = await response.json()
+    try {
+        const response = await fetch('/api/workouts', {
+            method: 'POST',
+            body: JSON.stringify(workout),
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${user.token}`
+            }
+        })
 
-    if (!response.ok) {
-        setError(json.error)
-        setEmptyFields(json.emptyFields)
+        // ✅ Check if response is truly empty
+        const text = await response.text();
+
+        if (!text) {
+            throw new Error("Empty response from server");
+        }
+
+        // ✅ Check if response is valid JSON before parsing
+        try {
+            const json = JSON.parse(text);
+
+            if (!response.ok) {
+                setError(json.error)
+                setEmptyFields(json.emptyFields)
+            }
+            if (response.ok) {
+                setEmptyFields([])
+                setError(null)
+                setTitle('')
+                setLoad('')
+                setReps('')
+                dispatch({type: 'CREATE_WORKOUT', payload: json})
+
+            }    
+        } catch (jsonError) {
+            throw new Error("Server response is not valid JSON: " + text);
+        }
+
+    } catch (error) {
+        console.error("Login error:", error.message);
+        return null;
     }
-    if (response.ok) {
-        setEmptyFields([])
-        setError(null)
-        setTitle('')
-        setLoad('')
-        setReps('')
-        dispatch({type: 'CREATE_WORKOUT', payload: json})
-    }
+
+    
+    // const response = await fetch('/api/workouts', {
+    //     method: 'POST',
+    //     body: JSON.stringify(workout),
+    //     headers: {
+    //         'Content-Type': 'application/json',
+    //         'Authorization': `Bearer ${user.token}`
+    //     }
+    // })
+    // const json = await response.json()
+
+    // if (!response.ok) {
+    //     setError(json.error)
+    //     setEmptyFields(json.emptyFields)
+    // }
+    // if (response.ok) {
+    //     setEmptyFields([])
+    //     setError(null)
+    //     setTitle('')
+    //     setLoad('')
+    //     setReps('')
+    //     dispatch({type: 'CREATE_WORKOUT', payload: json})
+    // }
 
 }
 

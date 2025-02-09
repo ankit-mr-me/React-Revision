@@ -6,7 +6,7 @@ export const useLogin = () => {
     const [isLoading, setIsLoading] = useState(null)
     const { dispatch } = useAuthContext()
 
-    const login = async (email, password) => {
+    /* const login = async (email, password) => {
     setIsLoading(true)
     setError(null)
 
@@ -35,9 +35,9 @@ export const useLogin = () => {
           // update loading state
             setIsLoading(false)
     }
-    }
+    } */
 
-    /* const login = async (email, password) => {
+    const login = async (email, password) => {
       try {
           const response = await fetch("https://fitbuddy-890e.onrender.com/api/user/login", {
               method: "POST",
@@ -83,7 +83,7 @@ export const useLogin = () => {
           console.error("Login error:", error.message);
           return null;
       }
-  }; */
+  }
   
 
     return { login, isLoading, error }
